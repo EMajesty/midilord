@@ -5,7 +5,8 @@
 // #include <vector>
 
 // ---------- LCD -------------------------------------------------------------
-const byte rs = 6, enTop = 4, enBot= 5, d4 = 0, d5 = 1, d6 = 2, d7 = 3;
+// const byte rs = 6, enTop = 4, enBot= 5, d4 = 0, d5 = 1, d6 = 2, d7 = 3;
+const byte rs = 16, enTop = 15, enBot= 14, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
 
 LiquidCrystal lcdTop(rs, enTop, d4, d5, d6, d7);
 LiquidCrystal lcdBot(rs, enBot, d4, d5, d6, d7);
