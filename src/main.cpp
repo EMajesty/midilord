@@ -3,6 +3,10 @@
 #include <LiquidCrystal.h>
 #include <Keypad.h>
 // #include <vector>
+#include <MIDI.h>
+
+// ---------- MIDI ------------------------------------------------------------
+MIDI_CREATE_DEFAULT_INSTANCE();
 
 // ---------- LCD -------------------------------------------------------------
 // const byte rs = 6, enTop = 4, enBot= 5, d4 = 0, d5 = 1, d6 = 2, d7 = 3;
@@ -43,6 +47,8 @@ void executeCommand(byte command);
 
 // ---------- Actual shit -----------------------------------------------------
 void setup() {
+    MIDI.begin(MIDI_CHANNEL_OMNI);
+
     lcdTop.begin(40, 2);
     lcdBot.begin(40, 2);
 
@@ -76,6 +82,8 @@ void loop() {
         drawActivePreset(i);
         delay(1000);
     }
+
+    MIDI.read();
 }
 
 
@@ -95,19 +103,19 @@ void drawPresets() {
     lcdTop.setCursor(1, 0);
     lcdTop.print("Preset 1");
     lcdTop.setCursor(11, 0);
-    lcdTop.print("Preset r");
+    lcdTop.print("Preset 2");
     lcdTop.setCursor(21, 0);
-    lcdTop.print("aaaaaaaa");
+    lcdTop.print("Preset 3");
     lcdTop.setCursor(31, 0);
-    lcdTop.print("12345678");
+    lcdTop.print("Preset 4");
     lcdBot.setCursor(1, 1);
-    lcdBot.print("kukkuuuu");
+    lcdBot.print("Preset 5");
     lcdBot.setCursor(11, 1);
-    lcdBot.print("juum");
+    lcdBot.print("Preset 6");
     lcdBot.setCursor(21, 1);
-    lcdBot.print("ebin");
+    lcdBot.print("Preset 7");
     lcdBot.setCursor(31, 1);
-    lcdBot.print("kebab");
+    lcdBot.print("Preset 8");
 }
 
 void drawActivePreset(byte activePreset) {
