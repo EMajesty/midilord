@@ -1,33 +1,35 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <LiquidCrystal.h>
-#include <Keypad.h>
 // #include <vector>
 #include <MIDI.h>
+#include <Button2.h>
+
+
+// ---------- Defines ---------------------------------------------------------
+#define buttonPin1 2
+#define buttonPin2 3
+#define buttonPin3 4
+#define buttonPin4 5
+#define buttonPin5 6
+#define buttonPin6 7
+#define buttonPin7 8
+#define buttonPin8 9
+
+// ---------- File system -----------------------------------------------------
+
+
+// ---------- Input -----------------------------------------------------------
+Button2 button1, button2, button3, button4, button5, button6, button7, button8;
 
 // ---------- MIDI ------------------------------------------------------------
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 // ---------- LCD -------------------------------------------------------------
-// const byte rs = 6, enTop = 4, enBot= 5, d4 = 0, d5 = 1, d6 = 2, d7 = 3;
 const byte rs = 16, enTop = 15, enBot= 14, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
 
 LiquidCrystal lcdTop(rs, enTop, d4, d5, d6, d7);
 LiquidCrystal lcdBot(rs, enBot, d4, d5, d6, d7);
-
-// ---------- Keypad ----------------------------------------------------------
-const byte ROWS = 2;
-const byte COLS = 4;
-
-char keys[ROWS][COLS] {
-    {'1', '2', '3', '4'},
-    {'5', '6', '7', '8'}
-};
-
-byte rowPins[ROWS] = {7, 8};
-byte colPins[COLS] = {9, 10, 11, 12};
-
-Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
 // ---------- Misc ------------------------------------------------------------
 bool summoningSickness = true;
@@ -35,53 +37,82 @@ byte currentBank[8][4];
 // std::vector<byte> currentBank;
 int bpm = 666;
 
+enum MessageType {
+    INTERNAL,
+    CONTROL,
+    PROGRAM
+};
+
 // ---------- Function declarations -------------------------------------------
 void drawHello();
 void drawPresets();
 void drawActivePreset(byte activePreset);
 void drawBPM();
 void drawClick();
-void keypadEvent(KeypadEvent key);
+void clickHandler(Button2& button);
 void executeCommand(byte command);
 
 
 // ---------- Actual shit -----------------------------------------------------
 void setup() {
+
+    button1.begin(buttonPin1);
+    button2.begin(buttonPin2);
+    button3.begin(buttonPin3);
+    button4.begin(buttonPin4);
+    button5.begin(buttonPin5);
+    button6.begin(buttonPin6);
+    button7.begin(buttonPin7);
+    button8.begin(buttonPin8);
+
+    button1.setID(1);
+    button2.setID(2);
+    button3.setID(3);
+    button4.setID(4);
+    button5.setID(5);
+    button6.setID(6);
+    button7.setID(7);
+    button8.setID(8);
+
+    button1.setPressedHandler(clickHandler);
+    button2.setPressedHandler(clickHandler);
+    button3.setPressedHandler(clickHandler);
+    button4.setPressedHandler(clickHandler);
+    button5.setPressedHandler(clickHandler);
+    button6.setPressedHandler(clickHandler);
+    button7.setPressedHandler(clickHandler);
+    button8.setPressedHandler(clickHandler);
+
     MIDI.begin(MIDI_CHANNEL_OMNI);
 
     lcdTop.begin(40, 2);
     lcdBot.begin(40, 2);
 
-    keypad.addEventListener(keypadEvent);
-
-    drawHello();
-    delay(5000);
-    lcdTop.clear();
-    lcdBot.clear();
-
-
-    summoningSickness = false;
+    // drawHello();
+    // delay(5000);
+    // lcdTop.clear();
+    // lcdBot.clear();
+    //
+    //
+    // summoningSickness = false;
+    drawPresets();
 }
 
 void loop() {
-    // if (millis() > 5000 && summoningSickness) {
-    //     lcdTop.clear();
-    //     lcdBot.clear();
-    //
-    //     summoningSickness = false;
-    //     drawPresets();
-    //     drawBPM();
-    // }
-
-
-
-    drawPresets();
     drawBPM();
  
-    for (byte i = 1; i < 9; i++) {
-        drawActivePreset(i);
-        delay(1000);
-    }
+    // for (byte i = 1; i < 9; i++) {
+    //     drawActivePreset(i);
+    //     delay(1000);
+    // }
+    button1.loop();
+    button2.loop();
+    button3.loop();
+    button4.loop();
+    button5.loop();
+    button6.loop();
+    button7.loop();
+    button8.loop();
 
     MIDI.read();
 }
@@ -227,24 +258,37 @@ void drawClick() {
 }
 
 // ---------- Input Functions -------------------------------------------------
-void keypadEvent(KeypadEvent key) {
-    switch (keypad.getState()) {
-        case PRESSED:
-            executeCommand(key);
-            break;
-        case RELEASED:
-            break;
-        case HOLD:
-            break;
-        case IDLE:
-            break;
-    }
+void clickHandler(Button2& button) {
+    // lcdTop.setCursor(0, 0);
+    // lcdTop.print("button");
+
+    drawActivePreset(button.getID());
+    // switch (button.getType()) {
+    //     case single_click:
+    //         // executeCommand(button.getID());
+    //         // lcdTop.setCursor(0, 1);
+    //         // lcdTop.print(button.getID());
+    //         break;
+    //     case long_click:
+    //         break;
+    //     case double_click:
+    //         break;
+    //     case triple_click:
+    //         break;
+    //     case empty:
+    //         break;
+    // }
 }
 
-void executeCommand(byte key) {
-    for (const auto& command : currentBank[key]) {
-        switch (command) {
-        
-        }
-    }
+void executeCommand(byte button) {
+    // for (const auto& command : currentBank[button]) {
+    //     switch (command) {
+    //         case INTERNAL:
+    //             break;
+    //         case CONTROL:
+    //             break;
+    //         case PROGRAM:
+    //             break;
+    //     }
+    // }
 }
