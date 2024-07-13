@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <LiquidCrystal.h>
-// #include <vector>
+#include <Vector.h>
 #include <MIDI.h>
 #include <Button2.h>
 
@@ -23,7 +23,8 @@
 Button2 button1, button2, button3, button4, button5, button6, button7, button8;
 
 // ---------- MIDI ------------------------------------------------------------
-MIDI_CREATE_DEFAULT_INSTANCE();
+// MIDI_CREATE_DEFAULT_INSTANCE();
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 
 // ---------- LCD -------------------------------------------------------------
 const byte rs = 16, enTop = 15, enBot= 14, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
@@ -31,11 +32,25 @@ const byte rs = 16, enTop = 15, enBot= 14, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
 LiquidCrystal lcdTop(rs, enTop, d4, d5, d6, d7);
 LiquidCrystal lcdBot(rs, enBot, d4, d5, d6, d7);
 
-// ---------- Misc ------------------------------------------------------------
-bool summoningSickness = true;
-byte currentBank[8][4];
-// std::vector<byte> currentBank;
-int bpm = 666;
+// ---------- Presets ---------------------------------------------------------
+// bank[preset1, ..., preset8]
+// preset[message, message, ...]
+// message[type, channel, programnumber/controlnumber, controlvalue]
+struct message {
+    byte type;
+    byte channel;
+    byte number;
+    byte value;
+};
+
+const byte ELEMENT_COUNT_MAX = 99;
+message messageArray[ELEMENT_COUNT_MAX];
+
+struct bank {
+    Vector<message> preset(messageArray)[8];
+};
+
+bank banks[99];
 
 enum MessageType {
     INTERNAL,
@@ -43,13 +58,16 @@ enum MessageType {
     PROGRAM
 };
 
+// ---------- Misc ------------------------------------------------------------
+int bpm = 666;
+
 // ---------- Function declarations -------------------------------------------
 void drawHello();
 void drawPresets();
 void drawActivePreset(byte activePreset);
 void drawBPM();
 void drawClick();
-void clickHandler(Button2& button);
+void buttonHandler(Button2& button);
 void executeCommand(byte command);
 
 
@@ -74,14 +92,14 @@ void setup() {
     button7.setID(7);
     button8.setID(8);
 
-    button1.setPressedHandler(clickHandler);
-    button2.setPressedHandler(clickHandler);
-    button3.setPressedHandler(clickHandler);
-    button4.setPressedHandler(clickHandler);
-    button5.setPressedHandler(clickHandler);
-    button6.setPressedHandler(clickHandler);
-    button7.setPressedHandler(clickHandler);
-    button8.setPressedHandler(clickHandler);
+    button1.setPressedHandler(buttonHandler);
+    button2.setPressedHandler(buttonHandler);
+    button3.setPressedHandler(buttonHandler);
+    button4.setPressedHandler(buttonHandler);
+    button5.setPressedHandler(buttonHandler);
+    button6.setPressedHandler(buttonHandler);
+    button7.setPressedHandler(buttonHandler);
+    button8.setPressedHandler(buttonHandler);
 
     MIDI.begin(MIDI_CHANNEL_OMNI);
 
@@ -92,9 +110,6 @@ void setup() {
     // delay(5000);
     // lcdTop.clear();
     // lcdBot.clear();
-    //
-    //
-    // summoningSickness = false;
     drawPresets();
 }
 
@@ -258,29 +273,13 @@ void drawClick() {
 }
 
 // ---------- Input Functions -------------------------------------------------
-void clickHandler(Button2& button) {
-    // lcdTop.setCursor(0, 0);
-    // lcdTop.print("button");
-
+void buttonHandler(Button2& button) {
+    executeCommand(button.getID());
     drawActivePreset(button.getID());
-    // switch (button.getType()) {
-    //     case single_click:
-    //         // executeCommand(button.getID());
-    //         // lcdTop.setCursor(0, 1);
-    //         // lcdTop.print(button.getID());
-    //         break;
-    //     case long_click:
-    //         break;
-    //     case double_click:
-    //         break;
-    //     case triple_click:
-    //         break;
-    //     case empty:
-    //         break;
-    // }
 }
 
 void executeCommand(byte button) {
+    switch (bank[button])
     // for (const auto& command : currentBank[button]) {
     //     switch (command) {
     //         case INTERNAL:
@@ -291,4 +290,31 @@ void executeCommand(byte button) {
     //             break;
     //     }
     // }
+    switch (button) {
+        case 1:
+            MIDI.sendProgramChange(63, 15);
+            break;
+        case 2:
+            MIDI.sendProgramChange(62, 15);
+            break;
+        case 3:
+            MIDI.sendProgramChange(61, 15);
+            break;
+        case 4:
+            MIDI.sendProgramChange(60, 15);
+            break;
+        case 5:
+            MIDI.sendProgramChange(59, 15);
+            break;
+        case 6:
+            MIDI.sendProgramChange(58, 15);
+            break;
+        case 7:
+            MIDI.sendProgramChange(57, 15);
+            break;
+        case 8:
+            MIDI.sendProgramChange(56, 15);
+            break;
+    }
+
 }
