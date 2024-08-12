@@ -21,8 +21,7 @@
 mbed::BlockDevice *bd = mbed::BlockDevice::get_default_instance();
 mbed::LittleFileSystem2 fs("fs", bd);
 
-const char *boot_count_path = "/fs/boot_count.txt";
-int boot_count = 0;
+const char *configPath = "/fs/config";
 
 // ---------- Input -----------------------------------------------------------
 Button2 button1, button2, button3, button4, button5, button6, button7, button8;
@@ -49,8 +48,8 @@ struct Message {
 };
 
 struct Preset {
-    String name;
-    Message messages[20];
+    char *name;
+    Message messages[30];
 };
 
 struct Bank {
@@ -59,7 +58,7 @@ struct Bank {
 
 struct Config {
     Bank banks[30];
-    byte currentBank;
+    byte currentBank = 0;
     byte currentPreset;
     int bpm;
 } config;
@@ -70,6 +69,7 @@ enum MessageType {
     PROGRAM
 };
 
+
 // ---------- Function declarations -------------------------------------------
 void drawHello();
 void drawPresets();
@@ -79,33 +79,25 @@ void drawBPM();
 void drawClick();
 void buttonHandler(Button2& button);
 void executeCommand(byte command);
-
+void readFlash();
+void writeFlash();
+void demoData();
+void removeData();
+void sendBank();
+void parseSysex();
+byte calculateChecksum(byte len, byte *ptr);
 
 // ---------- Actual shit -----------------------------------------------------
 void setup() {
     bd->init();
     int err = fs.mount(bd);
+
     if (err) {
         mbed::LittleFileSystem2::format(bd);
         fs.mount(bd);
     }
 
-
-    FILE *fp = fopen(boot_count_path, "r");
-    if (fp) {
-        fscanf(fp, "%d", &boot_count);
-        fclose(fp);
-    } else {
-        boot_count = 0;
-    }
-
-    boot_count++;
-
-    fp = fopen(boot_count_path, "w");
-    if (fp) {
-        fprintf(fp, "%d", boot_count);
-        fclose(fp);
-    }
+    readFlash();
 
     button1.begin(buttonPin1);
     button2.begin(buttonPin2);
@@ -139,10 +131,10 @@ void setup() {
     lcdTop.begin(40, 2);
     lcdBot.begin(40, 2);
 
-    drawHello();
-    delay(5000);
-    lcdTop.clear();
-    lcdBot.clear();
+    // drawHello();
+    // delay(5000);
+    // lcdTop.clear();
+    // lcdBot.clear();
     drawPresets();
 }
 
@@ -160,7 +152,71 @@ void loop() {
 
     MIDI.read();
 }
+// ---------- MIDI Functions --------------------------------------------------
+void sendBank() {
+    byte bankArray[sizeof(Config)];
+    memcpy(bankArray, &config, sizeof(bankArray));
 
+    byte startArray[6] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C, 0x00};
+
+    byte checkSumArray[sizeof(startArray) + sizeof(bankArray)];
+    memcpy(checkSumArray, startArray, sizeof(startArray));
+    memcpy(checkSumArray + sizeof(startArray), bankArray, sizeof(bankArray));
+
+    byte checkSum = calculateChecksum(sizeof(checkSumArray), *checkSumArray);
+    byte endArray[2] = {checkSum, 0xF7};
+
+    byte sysexArray[sizeof(checkSumArray) + sizeof(endArray)];
+    memcpy(sysexArray, checkSumArray, sizeof(checkSumArray));
+    memcpy(sysexArray + sizeof(checkSumArray), endArray, sizeof(endArray));
+
+    MIDI.sendSysEx(sizeof(sysexArray), sysexArray, true);
+}
+
+void parseSysex() {
+}
+
+byte calculateChecksum(byte len, byte *ptr) {
+    byte checkSum = *(ptr);
+
+    for (int i = 1; i < len; i++) {
+        checkSum ^= *(ptr + i);
+    }
+
+    checkSum &= 0x7F;
+    return checkSum;
+}
+
+// ---------- Filesystem Functions --------------------------------------------
+void readFlash() {
+    byte byteArray[sizeof(Config)];
+    
+    FILE *fp = fopen(configPath, "rb");
+    fread(byteArray, sizeof(byteArray), 1, fp);
+    fclose(fp);
+
+    memcpy(&config, byteArray, sizeof(Config));
+}
+
+void writeFlash() {
+    FILE *fp = fopen(configPath, "wb");
+    fwrite(&config, sizeof(Config), 1, fp);
+    fclose(fp);
+}
+
+void demoData() {
+    config.banks[0].presets[0].name = "kurkku";
+    config.banks[0].presets[1].name = "mopo";
+    config.banks[0].presets[2].name = "a";
+    config.banks[0].presets[3].name = "12345678";
+}
+
+void removeData() {
+    config.banks[0].presets[0].name = "        ";
+    config.banks[0].presets[1].name = "        ";
+    config.banks[0].presets[2].name = "        ";
+    config.banks[0].presets[3].name = "        ";
+}
 
 // ---------- LCD Functions ---------------------------------------------------
 void drawHello() {
@@ -171,27 +227,26 @@ void drawHello() {
     lcdBot.setCursor(0, 0);
     lcdBot.print("    E L E C T R I C    M A J E S T Y    ");
     lcdBot.setCursor(0, 1);
-    // lcdBot.print("                  2024                  ");
-    lcdBot.print(boot_count);
+    lcdBot.print("                  2024                  ");
 }
 
 void drawPresets() {
     lcdTop.setCursor(1, 0);
-    lcdTop.print("Preset 1");
+    lcdTop.print(config.banks[config.currentBank].presets[0].name);
     lcdTop.setCursor(11, 0);
-    lcdTop.print("Preset 2");
+    lcdTop.print(config.banks[config.currentBank].presets[1].name);
     lcdTop.setCursor(21, 0);
-    lcdTop.print("Preset 3");
+    lcdTop.print(config.banks[config.currentBank].presets[2].name);
     lcdTop.setCursor(31, 0);
-    lcdTop.print("Preset 4");
+    lcdTop.print(config.banks[config.currentBank].presets[3].name);
     lcdBot.setCursor(1, 1);
-    lcdBot.print("Preset 5");
+    lcdTop.print(config.banks[config.currentBank].presets[4].name);
     lcdBot.setCursor(11, 1);
-    lcdBot.print("Preset 6");
+    lcdTop.print(config.banks[config.currentBank].presets[5].name);
     lcdBot.setCursor(21, 1);
-    lcdBot.print("Preset 7");
+    lcdTop.print(config.banks[config.currentBank].presets[6].name);
     lcdBot.setCursor(31, 1);
-    lcdBot.print("Preset 8");
+    lcdTop.print(config.banks[config.currentBank].presets[7].name);
 }
 
 void drawActivePreset(byte activePreset) {
