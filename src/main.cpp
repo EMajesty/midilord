@@ -1,10 +1,11 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <LiquidCrystal.h>
-#include <Vector.h>
 #include <MIDI.h>
 #include <Button2.h>
-
+#include <LittleFileSystem2.h>
+#include <BlockDevice.h>
+#include <cstdio>
 
 // ---------- Defines ---------------------------------------------------------
 #define buttonPin1 2
@@ -17,7 +18,11 @@
 #define buttonPin8 9
 
 // ---------- File system -----------------------------------------------------
+mbed::BlockDevice *bd = mbed::BlockDevice::get_default_instance();
+mbed::LittleFileSystem2 fs("fs", bd);
 
+const char *boot_count_path = "/fs/boot_count.txt";
+int boot_count = 0;
 
 // ---------- Input -----------------------------------------------------------
 Button2 button1, button2, button3, button4, button5, button6, button7, button8;
@@ -36,21 +41,28 @@ LiquidCrystal lcdBot(rs, enBot, d4, d5, d6, d7);
 // bank[preset1, ..., preset8]
 // preset[message, message, ...]
 // message[type, channel, programnumber/controlnumber, controlvalue]
-struct message {
+struct Message {
     byte type;
     byte channel;
     byte number;
     byte value;
 };
 
-const byte ELEMENT_COUNT_MAX = 99;
-message messageArray[ELEMENT_COUNT_MAX];
-
-struct bank {
-    Vector<message> preset(messageArray)[8];
+struct Preset {
+    String name;
+    Message messages[20];
 };
 
-bank banks[99];
+struct Bank {
+    Preset presets[8];
+};
+
+struct Config {
+    Bank banks[30];
+    byte currentBank;
+    byte currentPreset;
+    int bpm;
+} config;
 
 enum MessageType {
     INTERNAL,
@@ -58,13 +70,11 @@ enum MessageType {
     PROGRAM
 };
 
-// ---------- Misc ------------------------------------------------------------
-int bpm = 666;
-
 // ---------- Function declarations -------------------------------------------
 void drawHello();
 void drawPresets();
 void drawActivePreset(byte activePreset);
+void drawCurrentBank();
 void drawBPM();
 void drawClick();
 void buttonHandler(Button2& button);
@@ -73,6 +83,29 @@ void executeCommand(byte command);
 
 // ---------- Actual shit -----------------------------------------------------
 void setup() {
+    bd->init();
+    int err = fs.mount(bd);
+    if (err) {
+        mbed::LittleFileSystem2::format(bd);
+        fs.mount(bd);
+    }
+
+
+    FILE *fp = fopen(boot_count_path, "r");
+    if (fp) {
+        fscanf(fp, "%d", &boot_count);
+        fclose(fp);
+    } else {
+        boot_count = 0;
+    }
+
+    boot_count++;
+
+    fp = fopen(boot_count_path, "w");
+    if (fp) {
+        fprintf(fp, "%d", boot_count);
+        fclose(fp);
+    }
 
     button1.begin(buttonPin1);
     button2.begin(buttonPin2);
@@ -106,20 +139,16 @@ void setup() {
     lcdTop.begin(40, 2);
     lcdBot.begin(40, 2);
 
-    // drawHello();
-    // delay(5000);
-    // lcdTop.clear();
-    // lcdBot.clear();
+    drawHello();
+    delay(5000);
+    lcdTop.clear();
+    lcdBot.clear();
     drawPresets();
 }
 
 void loop() {
     drawBPM();
- 
-    // for (byte i = 1; i < 9; i++) {
-    //     drawActivePreset(i);
-    //     delay(1000);
-    // }
+
     button1.loop();
     button2.loop();
     button3.loop();
@@ -142,7 +171,8 @@ void drawHello() {
     lcdBot.setCursor(0, 0);
     lcdBot.print("    E L E C T R I C    M A J E S T Y    ");
     lcdBot.setCursor(0, 1);
-    lcdBot.print("                  2024                  ");
+    // lcdBot.print("                  2024                  ");
+    lcdBot.print(boot_count);
 }
 
 void drawPresets() {
@@ -263,10 +293,16 @@ void drawActivePreset(byte activePreset) {
     }
 }
 
+void drawCurrentBank() {
+    lcdTop.setCursor(30, 1);
+    lcdTop.print("Bank: ");
+    lcdTop.print(config.currentBank);
+}
+
 void drawBPM() {
     lcdTop.setCursor(0, 1);
     lcdTop.print("BPM: ");
-    lcdTop.print(bpm);
+    lcdTop.print(config.bpm);
 }
 
 void drawClick() {
@@ -279,7 +315,6 @@ void buttonHandler(Button2& button) {
 }
 
 void executeCommand(byte button) {
-    switch (bank[button])
     // for (const auto& command : currentBank[button]) {
     //     switch (command) {
     //         case INTERNAL:
