@@ -29,6 +29,7 @@ Button2 button1, button2, button3, button4, button5, button6, button7, button8;
 // ---------- MIDI ------------------------------------------------------------
 // MIDI_CREATE_DEFAULT_INSTANCE();
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
+// USBMidi usbMidi;
 
 // ---------- LCD -------------------------------------------------------------
 const byte rs = 16, enTop = 15, enBot= 14, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
@@ -83,9 +84,9 @@ void readFlash();
 void writeFlash();
 void demoData();
 void removeData();
-void sendBank();
+void sendBank(byte bank);
 void parseSysex();
-byte calculateChecksum(byte len, byte *ptr);
+byte calculateChecksum(int len, byte *ptr);
 
 // ---------- Actual shit -----------------------------------------------------
 void setup() {
@@ -150,12 +151,13 @@ void loop() {
     button7.loop();
     button8.loop();
 
-    MIDI.read();
+    // MIDI.read();
 }
+
 // ---------- MIDI Functions --------------------------------------------------
-void sendBank() {
-    byte bankArray[sizeof(Config)];
-    memcpy(bankArray, &config, sizeof(bankArray));
+void sendBank(byte bank) {
+    byte bankArray[sizeof(config.banks[bank])];
+    memcpy(bankArray, &config.banks[bank], sizeof(bankArray));
 
     byte startArray[6] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C, 0x00};
 
@@ -163,20 +165,20 @@ void sendBank() {
     memcpy(checkSumArray, startArray, sizeof(startArray));
     memcpy(checkSumArray + sizeof(startArray), bankArray, sizeof(bankArray));
 
-    byte checkSum = calculateChecksum(sizeof(checkSumArray), *checkSumArray);
+    byte checkSum = calculateChecksum(sizeof(checkSumArray), checkSumArray);
     byte endArray[2] = {checkSum, 0xF7};
 
-    byte sysexArray[sizeof(checkSumArray) + sizeof(endArray)];
-    memcpy(sysexArray, checkSumArray, sizeof(checkSumArray));
-    memcpy(sysexArray + sizeof(checkSumArray), endArray, sizeof(endArray));
+    byte outputArray[sizeof(checkSumArray) + sizeof(endArray)];
+    memcpy(outputArray, checkSumArray, sizeof(checkSumArray));
+    memcpy(outputArray + sizeof(checkSumArray), endArray, sizeof(endArray));
 
-    MIDI.sendSysEx(sizeof(sysexArray), sysexArray, true);
+    // MIDI.sendSysEx(sizeof(outputArray), outputArray, true);
 }
 
 void parseSysex() {
 }
 
-byte calculateChecksum(byte len, byte *ptr) {
+byte calculateChecksum(int len, byte *ptr) {
     byte checkSum = *(ptr);
 
     for (int i = 1; i < len; i++) {
@@ -205,17 +207,17 @@ void writeFlash() {
 }
 
 void demoData() {
-    config.banks[0].presets[0].name = "kurkku";
-    config.banks[0].presets[1].name = "mopo";
-    config.banks[0].presets[2].name = "a";
-    config.banks[0].presets[3].name = "12345678";
+    // config.banks[0].presets[0].name = "kurkku";
+    // config.banks[0].presets[1].name = "mopo";
+    // config.banks[0].presets[2].name = "a";
+    // config.banks[0].presets[3].name = "12345678";
 }
 
 void removeData() {
-    config.banks[0].presets[0].name = "        ";
-    config.banks[0].presets[1].name = "        ";
-    config.banks[0].presets[2].name = "        ";
-    config.banks[0].presets[3].name = "        ";
+    // config.banks[0].presets[0].name = "        ";
+    // config.banks[0].presets[1].name = "        ";
+    // config.banks[0].presets[2].name = "        ";
+    // config.banks[0].presets[3].name = "        ";
 }
 
 // ---------- LCD Functions ---------------------------------------------------
@@ -406,5 +408,4 @@ void executeCommand(byte button) {
             MIDI.sendProgramChange(56, 15);
             break;
     }
-
 }
