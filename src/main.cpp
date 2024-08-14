@@ -3,9 +3,11 @@
 #include <LiquidCrystal.h>
 #include <MIDI.h>
 #include <Button2.h>
-#include <LittleFileSystem2.h>
-#include <BlockDevice.h>
-#include <cstdio>
+#include <Adafruit_TinyUSB.h>
+#include <LittleFS.h>
+// #include <LittleFileSystem2.h>
+// #include <BlockDevice.h>
+// #include <cstdio>
 
 // ---------- Defines ---------------------------------------------------------
 #define buttonPin1 2
@@ -18,17 +20,15 @@
 #define buttonPin8 9
 
 // ---------- File system -----------------------------------------------------
-mbed::BlockDevice *bd = mbed::BlockDevice::get_default_instance();
-mbed::LittleFileSystem2 fs("fs", bd);
-
-const char *configPath = "/fs/config";
 
 // ---------- Input -----------------------------------------------------------
 Button2 button1, button2, button3, button4, button5, button6, button7, button8;
 
 // ---------- MIDI ------------------------------------------------------------
 // MIDI_CREATE_DEFAULT_INSTANCE();
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
+Adafruit_USBD_MIDI usb_midi;
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, serialMIDI);
+MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, usbMIDI);
 // USBMidi usbMidi;
 
 // ---------- LCD -------------------------------------------------------------
@@ -49,7 +49,7 @@ struct Message {
 };
 
 struct Preset {
-    char *name;
+    char name[8];
     Message messages[30];
 };
 
@@ -84,21 +84,25 @@ void readFlash();
 void writeFlash();
 void demoData();
 void removeData();
+void formatFlash();
 void sendBank(byte bank);
 void parseSysex();
 byte calculateChecksum(int len, byte *ptr);
 
 // ---------- Actual shit -----------------------------------------------------
 void setup() {
-    bd->init();
-    int err = fs.mount(bd);
+    demoData();
+    // LittleFS.begin();
+    // readFlash();
 
-    if (err) {
-        mbed::LittleFileSystem2::format(bd);
-        fs.mount(bd);
+    // TinyUSB_Device_Init(0);
+    usbMIDI.begin(MIDI_CHANNEL_OMNI);
+    serialMIDI.begin(MIDI_CHANNEL_OMNI);
+
+    while (!TinyUSBDevice.mounted())
+    {
+        delay(1);
     }
-
-    readFlash();
 
     button1.begin(buttonPin1);
     button2.begin(buttonPin2);
@@ -127,7 +131,7 @@ void setup() {
     button7.setPressedHandler(buttonHandler);
     button8.setPressedHandler(buttonHandler);
 
-    MIDI.begin(MIDI_CHANNEL_OMNI);
+
 
     lcdTop.begin(40, 2);
     lcdBot.begin(40, 2);
@@ -151,28 +155,31 @@ void loop() {
     button7.loop();
     button8.loop();
 
-    // MIDI.read();
+    usbMIDI.read();
 }
 
 // ---------- MIDI Functions --------------------------------------------------
 void sendBank(byte bank) {
-    byte bankArray[sizeof(config.banks[bank])];
-    memcpy(bankArray, &config.banks[bank], sizeof(bankArray));
+    // byte bankArray[sizeof(config.banks[0].presets[0].name)];
+    // memcpy(bankArray, &config.banks[0].presets[0].name, sizeof(bankArray));
 
     byte startArray[6] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C, 0x00};
 
-    byte checkSumArray[sizeof(startArray) + sizeof(bankArray)];
+    byte checkSumArray[sizeof(startArray) + sizeof(config.banks[0].presets[0].name)];
     memcpy(checkSumArray, startArray, sizeof(startArray));
-    memcpy(checkSumArray + sizeof(startArray), bankArray, sizeof(bankArray));
+    memcpy(checkSumArray + sizeof(startArray), config.banks[0].presets[0].name, sizeof(config.banks[0].presets[0].name));
 
-    byte checkSum = calculateChecksum(sizeof(checkSumArray), checkSumArray);
-    byte endArray[2] = {checkSum, 0xF7};
+    // byte checkSum = calculateChecksum(sizeof(checkSumArray), checkSumArray);
+    // byte endArray[2] = {checkSum, 0xF7};
+
+    byte endArray[2] = {0x00, 0xF7};
 
     byte outputArray[sizeof(checkSumArray) + sizeof(endArray)];
     memcpy(outputArray, checkSumArray, sizeof(checkSumArray));
     memcpy(outputArray + sizeof(checkSumArray), endArray, sizeof(endArray));
 
-    // MIDI.sendSysEx(sizeof(outputArray), outputArray, true);
+    usbMIDI.sendSysEx(sizeof(outputArray), outputArray, true);
+    // usbMIDI.sendSysEx(sizeof(startArray), startArray, true);
 }
 
 void parseSysex() {
@@ -193,31 +200,36 @@ byte calculateChecksum(int len, byte *ptr) {
 void readFlash() {
     byte byteArray[sizeof(Config)];
     
-    FILE *fp = fopen(configPath, "rb");
-    fread(byteArray, sizeof(byteArray), 1, fp);
-    fclose(fp);
+    File file = LittleFS.open("/f.txt", "r");
+    file.read(byteArray, sizeof(byteArray));
 
     memcpy(&config, byteArray, sizeof(Config));
 }
 
 void writeFlash() {
-    FILE *fp = fopen(configPath, "wb");
-    fwrite(&config, sizeof(Config), 1, fp);
-    fclose(fp);
+    byte byteArray[sizeof(Config)];
+    memcpy(byteArray, &config, sizeof(Config));
+
+    File file = LittleFS.open("/f.txt", "w");
+    file.write(byteArray, sizeof(byteArray));
 }
 
 void demoData() {
-    // config.banks[0].presets[0].name = "kurkku";
-    // config.banks[0].presets[1].name = "mopo";
-    // config.banks[0].presets[2].name = "a";
-    // config.banks[0].presets[3].name = "12345678";
+    strncpy(config.banks[0].presets[0].name, "kurkku", 8);
+    strncpy(config.banks[0].presets[1].name, "mopo", 8);
+    strncpy(config.banks[0].presets[2].name, "a", 8);
+    strncpy(config.banks[0].presets[3].name, "12345678", 8);
 }
 
 void removeData() {
-    // config.banks[0].presets[0].name = "        ";
-    // config.banks[0].presets[1].name = "        ";
-    // config.banks[0].presets[2].name = "        ";
-    // config.banks[0].presets[3].name = "        ";
+    strncpy(config.banks[0].presets[0].name, "        ", 8);
+    strncpy(config.banks[0].presets[1].name, "        ", 8);
+    strncpy(config.banks[0].presets[2].name, "        ", 8);
+    strncpy(config.banks[0].presets[3].name, "        ", 8);
+}
+
+void formatFlash() {
+    LittleFS.format();
 }
 
 // ---------- LCD Functions ---------------------------------------------------
@@ -384,28 +396,33 @@ void executeCommand(byte button) {
     // }
     switch (button) {
         case 1:
-            MIDI.sendProgramChange(63, 15);
+            sendBank(0);
+            // serialMIDI.sendProgramChange(63, 15);
             break;
         case 2:
-            MIDI.sendProgramChange(62, 15);
+            serialMIDI.sendProgramChange(62, 15);
             break;
         case 3:
-            MIDI.sendProgramChange(61, 15);
+            serialMIDI.sendProgramChange(61, 15);
             break;
         case 4:
-            MIDI.sendProgramChange(60, 15);
+            serialMIDI.sendProgramChange(60, 15);
             break;
         case 5:
-            MIDI.sendProgramChange(59, 15);
+            demoData();
+            // serialMIDI.sendProgramChange(59, 15);
             break;
         case 6:
-            MIDI.sendProgramChange(58, 15);
+            removeData();
+            // serialMIDI.sendProgramChange(58, 15);
             break;
         case 7:
-            MIDI.sendProgramChange(57, 15);
+            writeFlash();
+            // serialMIDI.sendProgramChange(57, 15);
             break;
         case 8:
-            MIDI.sendProgramChange(56, 15);
+            readFlash();
+            // serialMIDI.sendProgramChange(56, 15);
             break;
     }
 }
