@@ -17,6 +17,8 @@
 #define buttonPin7 8
 #define buttonPin8 9
 
+#define BANKS_MAX 30
+#define MESSAGES_MAX 30
 // ---------- File system -----------------------------------------------------
 
 // ---------- Input -----------------------------------------------------------
@@ -26,6 +28,9 @@ Button2 button1, button2, button3, button4, button5, button6, button7, button8;
 Adafruit_USBD_MIDI usb_midi;
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, serialMIDI);
 MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, usbMIDI);
+
+// SysEx message signature
+byte signatureArray[6] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C};
 
 // ---------- LCD -------------------------------------------------------------
 const byte rs = 16, enTop = 15, enBot= 14, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
@@ -46,15 +51,16 @@ struct Message {
 
 struct Preset {
     char name[8];
-    Message messages[30];
+    Message messages[MESSAGES_MAX];
 };
 
 struct Bank {
+    char name[8];
     Preset presets[8];
 };
 
 struct Config {
-    Bank banks[30];
+    Bank banks[BANKS_MAX];
     byte currentBank = 0;
     byte currentPreset;
     int bpm;
@@ -179,6 +185,40 @@ void sendBank(byte bank) {
 void handleSystemExclusive(byte* array, unsigned size) {
     lcdBot.setCursor(0, 0);
     lcdBot.print(array[0]);
+
+    if (memcmp(array, signatureArray, sizeof(signatureArray)) == 0) {
+        switch (array[5]) { // Byte: Ack
+            case 0x00: // Checksum ok, proceed
+                switch (array[6]) { // Byte: Instructions
+                    case 0x00: // No instruction
+                        break;
+                    case 0x01: // Send current bank
+                        sendBank(config.currentBank);
+                        break;
+                    case 0x10: // Bank up
+                        if (config.currentBank < BANKS_MAX) {
+                            config.currentBank++;
+                        }
+                        break;
+                    case 0x11: // Bank down
+                        if (config.currentBank > 0) {
+                            config.currentBank--;
+                        }
+                        break;
+                    case 0x12: // Goto bank
+                        if (array[7] <= 30 && array[7] >= 0) {
+                            config.currentBank = array[7];
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            case 0x01: // Checksum mismatch, resend last
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 byte calculateChecksum(int len, byte *ptr) {
