@@ -163,23 +163,20 @@ void sendBank(byte bank) {
     // byte bankArray[sizeof(config.banks[0].presets[0].name)];
     // memcpy(bankArray, &config.banks[0].presets[0].name, sizeof(bankArray));
 
-    byte startArray[6] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C, 0x00};
+    byte startArray[5] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C};
 
     byte checkSumArray[sizeof(startArray) + sizeof(config.banks[0].presets[0].name)];
     memcpy(checkSumArray, startArray, sizeof(startArray));
     memcpy(checkSumArray + sizeof(startArray), config.banks[0].presets[0].name, sizeof(config.banks[0].presets[0].name));
 
-    // byte checkSum = calculateChecksum(sizeof(checkSumArray), checkSumArray);
-    // byte endArray[2] = {checkSum, 0xF7};
-
-    byte endArray[2] = {0x00, 0xF7};
+    byte checkSum = calculateChecksum(sizeof(checkSumArray), checkSumArray);
+    byte endArray[2] = {checkSum, 0xF7};
 
     byte outputArray[sizeof(checkSumArray) + sizeof(endArray)];
     memcpy(outputArray, checkSumArray, sizeof(checkSumArray));
     memcpy(outputArray + sizeof(checkSumArray), endArray, sizeof(endArray));
 
     usbMIDI.sendSysEx(sizeof(outputArray), outputArray, true);
-    // usbMIDI.sendSysEx(sizeof(startArray), startArray, true);
 }
 
 void parseSysex() {
