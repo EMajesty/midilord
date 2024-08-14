@@ -1,3 +1,4 @@
+#include "midi_Defs.h"
 #include <Arduino.h>
 #include <Wire.h>
 #include <LiquidCrystal.h>
@@ -5,9 +6,6 @@
 #include <Button2.h>
 #include <Adafruit_TinyUSB.h>
 #include <LittleFS.h>
-// #include <LittleFileSystem2.h>
-// #include <BlockDevice.h>
-// #include <cstdio>
 
 // ---------- Defines ---------------------------------------------------------
 #define buttonPin1 2
@@ -25,11 +23,9 @@
 Button2 button1, button2, button3, button4, button5, button6, button7, button8;
 
 // ---------- MIDI ------------------------------------------------------------
-// MIDI_CREATE_DEFAULT_INSTANCE();
 Adafruit_USBD_MIDI usb_midi;
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, serialMIDI);
 MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, usbMIDI);
-// USBMidi usbMidi;
 
 // ---------- LCD -------------------------------------------------------------
 const byte rs = 16, enTop = 15, enBot= 14, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
@@ -86,17 +82,18 @@ void demoData();
 void removeData();
 void formatFlash();
 void sendBank(byte bank);
-void parseSysex();
 byte calculateChecksum(int len, byte *ptr);
+void handleSystemExclusive(byte* array, unsigned size);
 
 // ---------- Actual shit -----------------------------------------------------
 void setup() {
     demoData();
-    // LittleFS.begin();
+    LittleFS.begin();
     // readFlash();
 
-    // TinyUSB_Device_Init(0);
     usbMIDI.begin(MIDI_CHANNEL_OMNI);
+    usbMIDI.setHandleSystemExclusive(handleSystemExclusive);
+
     serialMIDI.begin(MIDI_CHANNEL_OMNI);
 
     while (!TinyUSBDevice.mounted())
@@ -131,13 +128,11 @@ void setup() {
     button7.setPressedHandler(buttonHandler);
     button8.setPressedHandler(buttonHandler);
 
-
-
     lcdTop.begin(40, 2);
     lcdBot.begin(40, 2);
 
     // drawHello();
-    // delay(5000);
+    // delay(3000);
     // lcdTop.clear();
     // lcdBot.clear();
     drawPresets();
@@ -160,26 +155,30 @@ void loop() {
 
 // ---------- MIDI Functions --------------------------------------------------
 void sendBank(byte bank) {
-    // byte bankArray[sizeof(config.banks[0].presets[0].name)];
-    // memcpy(bankArray, &config.banks[0].presets[0].name, sizeof(bankArray));
+    // for (byte i = 0; i < 8; i++) {
+        byte bankArray[sizeof(config.banks[0].presets[0])];
+        memcpy(bankArray, &config.banks[0].presets[0], sizeof(bankArray));
 
-    byte startArray[5] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C};
+        byte startArray[6] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C, 0x01};
+        
+        byte checkSumArray[sizeof(startArray) + sizeof(config.banks[0].presets[0])];
+        memcpy(checkSumArray, startArray, sizeof(startArray));
+        memcpy(checkSumArray + sizeof(startArray), &config.banks[0].presets[0], sizeof(config.banks[0].presets[0]));
 
-    byte checkSumArray[sizeof(startArray) + sizeof(config.banks[0].presets[0].name)];
-    memcpy(checkSumArray, startArray, sizeof(startArray));
-    memcpy(checkSumArray + sizeof(startArray), config.banks[0].presets[0].name, sizeof(config.banks[0].presets[0].name));
+        byte checkSum = calculateChecksum(sizeof(checkSumArray), checkSumArray);
+        byte endArray[2] = {checkSum, 0xF7};
 
-    byte checkSum = calculateChecksum(sizeof(checkSumArray), checkSumArray);
-    byte endArray[2] = {checkSum, 0xF7};
+        byte outputArray[sizeof(checkSumArray) + sizeof(endArray)];
+        memcpy(outputArray, checkSumArray, sizeof(checkSumArray));
+        memcpy(outputArray + sizeof(checkSumArray), endArray, sizeof(endArray));
 
-    byte outputArray[sizeof(checkSumArray) + sizeof(endArray)];
-    memcpy(outputArray, checkSumArray, sizeof(checkSumArray));
-    memcpy(outputArray + sizeof(checkSumArray), endArray, sizeof(endArray));
-
-    usbMIDI.sendSysEx(sizeof(outputArray), outputArray, true);
+        usbMIDI.sendSysEx(sizeof(outputArray), outputArray, true);
+    // }
 }
 
-void parseSysex() {
+void handleSystemExclusive(byte* array, unsigned size) {
+    lcdBot.setCursor(0, 0);
+    lcdBot.print(array[0]);
 }
 
 byte calculateChecksum(int len, byte *ptr) {
