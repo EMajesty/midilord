@@ -102,10 +102,10 @@ void setup() {
 
     serialMIDI.begin(MIDI_CHANNEL_OMNI);
 
-    while (!TinyUSBDevice.mounted())
-    {
-        delay(1);
-    }
+    // while (!TinyUSBDevice.mounted())
+    // {
+    //     delay(1);
+    // }
 
     button1.begin(buttonPin1);
     button2.begin(buttonPin2);
