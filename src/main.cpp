@@ -6,7 +6,6 @@
 #include "midi-messaging.h"
 
 void setup() {
-   
     demoData();
     initFileSystem();
     initMidi();
