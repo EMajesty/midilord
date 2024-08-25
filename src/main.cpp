@@ -6,11 +6,7 @@
 #include "midi-messaging.h"
 
 void setup() {
-    // while (!TinyUSBDevice.mounted())
-    // {
-    //     delay(1);
-    // }
-    
+   
     demoData();
     initFileSystem();
     initMidi();

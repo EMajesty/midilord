@@ -17,6 +17,11 @@ void handleSystemExclusive(byte *array, unsigned int size);
 byte calculateChecksum(int len, byte *ptr);
 
 void initMidi() {
+    // while (!TinyUSBDevice.mounted())
+    // {
+    //     delay(1);
+    // }
+ 
     usbMIDI.begin(MIDI_CHANNEL_OMNI);
     usbMIDI.setHandleSystemExclusive(handleSystemExclusive);
 
