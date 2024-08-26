@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
+#include "config.h"
 #include "lcd.h"
 #include "filesystem.h"
 #include "input.h"

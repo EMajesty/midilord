@@ -2,18 +2,14 @@
 
 #include <Arduino.h>
 
-#define BANKS_MAX 30
-#define MESSAGES_MAX 30
+const byte BANKS_MAX = 30;
+const byte MESSAGES_MAX = 30;
 
-// ---------- Presets ---------------------------------------------------------
-// bank[preset1, ..., preset8]
-// preset[message, message, ...]
-// message[type, channel, programnumber/controlnumber, controlvalue]
 struct Message {
     byte type;
-    byte channel;
-    byte number;
-    byte value;
+    byte channel; // PC, CC
+    byte number; // PC, CC
+    byte value; // CC
 };
 
 struct Preset {
@@ -26,12 +22,13 @@ struct Bank {
     Preset presets[8];
 };
 
-struct Config {
+extern struct Config {
     Bank banks[BANKS_MAX];
     byte currentBank = 0;
-    byte currentPreset;
+    byte currentPreset = 0;
     int bpm;
 } config;
+
 
 enum MessageType {
     INTERNAL,
@@ -39,4 +36,4 @@ enum MessageType {
     PROGRAM
 };
 
-
+void demoData();
