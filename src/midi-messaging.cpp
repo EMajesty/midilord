@@ -31,16 +31,43 @@ void loopMidi() {
     serialMIDI.read();
 }
 
+void presetToByteArray(byte preset, byte presetArray[], int size) {
+    Preset& ref = config.banks[config.currentBank].presets[preset];
+
+    memcpy(presetArray, ref.name, strlen(ref.name));
+
+    for (int i = 0; i < MESSAGES_MAX; i++) {
+        for (int j = 0; j < 4; j++) { // Four fields in the Message struct
+            byte val;
+            switch (j) {
+                case 0:
+                    val = ref.messages[i].type;
+                    break;
+                case 1:
+                    val = ref.messages[i].channel;
+                    break;
+                case 2:
+                    val = ref.messages[i].number;
+                    break;
+                case 3:
+                    val = ref.messages[i].value;
+                    break;
+            }
+            presetArray[8 + i * 4 + j] = val;
+        }
+    }
+}
+
 void sendBank(byte bank) {
-    // for (byte i = 0; i < 8; i++) {
-        byte bankArray[sizeof(config.banks[0].presets[0])];
-        memcpy(bankArray, &config.banks[0].presets[0], sizeof(bankArray));
+    for (byte i = 0; i < 8; i++) {
+        byte presetArray[12 * MESSAGES_MAX];
+        presetToByteArray(i, presetArray, 12 * MESSAGES_MAX);
 
         byte startArray[6] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C, 0x01};
-        
-        byte checkSumArray[sizeof(startArray) + sizeof(config.banks[0].presets[0])];
+        byte checkSumArray[sizeof(startArray) + sizeof(presetArray)];
+
         memcpy(checkSumArray, startArray, sizeof(startArray));
-        memcpy(checkSumArray + sizeof(startArray), &config.banks[0].presets[0], sizeof(config.banks[0].presets[0]));
+        memcpy(checkSumArray + sizeof(startArray), presetArray, sizeof(presetArray));
 
         byte checkSum = calculateChecksum(sizeof(checkSumArray), checkSumArray);
         byte endArray[2] = {checkSum, 0xF7};
@@ -50,7 +77,7 @@ void sendBank(byte bank) {
         memcpy(outputArray + sizeof(checkSumArray), endArray, sizeof(endArray));
 
         usbMIDI.sendSysEx(sizeof(outputArray), outputArray, true);
-    // }
+    }
 }
 
 void handleSystemExclusive(byte* array, unsigned size) {
@@ -63,21 +90,21 @@ void handleSystemExclusive(byte* array, unsigned size) {
                     case 0x01: // Send current bank
                         sendBank(config.currentBank);
                         break;
-                    case 0x10: // Bank up
-                        if (config.currentBank < BANKS_MAX) {
-                            config.currentBank++;
-                        }
-                        break;
-                    case 0x11: // Bank down
-                        if (config.currentBank > 0) {
-                            config.currentBank--;
-                        }
-                        break;
-                    case 0x12: // Goto bank
-                        if (array[7] <= 30 && array[7] >= 0) {
-                            config.currentBank = array[7];
-                        }
-                        break;
+                    // case 0x10: // Bank up
+                    //     if (config.currentBank < BANKS_MAX) {
+                    //         config.currentBank++;
+                    //     }
+                    //     break;
+                    // case 0x11: // Bank down
+                    //     if (config.currentBank > 0) {
+                    //         config.currentBank--;
+                    //     }
+                    //     break;
+                    // case 0x12: // Goto bank
+                    //     if (array[7] <= 30 && array[7] >= 0) {
+                    //         config.currentBank = array[7];
+                    //     }
+                    //     break;
                     default:
                         break;
                 }
