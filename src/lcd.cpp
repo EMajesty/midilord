@@ -43,13 +43,13 @@ void drawPresets() {
     lcdTop.setCursor(31, 0);
     lcdTop.print(config.banks[config.currentBank].presets[3].name);
     lcdBot.setCursor(1, 1);
-    lcdTop.print(config.banks[config.currentBank].presets[4].name);
+    lcdBot.print(config.banks[config.currentBank].presets[4].name);
     lcdBot.setCursor(11, 1);
-    lcdTop.print(config.banks[config.currentBank].presets[5].name);
+    lcdBot.print(config.banks[config.currentBank].presets[5].name);
     lcdBot.setCursor(21, 1);
-    lcdTop.print(config.banks[config.currentBank].presets[6].name);
+    lcdBot.print(config.banks[config.currentBank].presets[6].name);
     lcdBot.setCursor(31, 1);
-    lcdTop.print(config.banks[config.currentBank].presets[7].name);
+    lcdBot.print(config.banks[config.currentBank].presets[7].name);
 }
 
 void drawActivePreset(byte activePreset) {
