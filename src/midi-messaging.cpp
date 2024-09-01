@@ -59,8 +59,9 @@ void presetToByteArray(byte preset, byte presetArray[], int size) {
 }
 
 void sendBank(byte bank) {
+    // int i = 0;
     for (byte i = 0; i < 8; i++) {
-        byte presetArray[12 * MESSAGES_MAX];
+        byte presetArray[12 * MESSAGES_MAX] = {0};
         presetToByteArray(i, presetArray, 12 * MESSAGES_MAX);
 
         byte startArray[6] = {0xF0, 0x7D, 0x6D, 0x64, 0x6C, 0x01};
