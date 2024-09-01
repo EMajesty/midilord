@@ -11,3 +11,6 @@
 |...|...|
 |cs|Checksum|
 |F7|End|
+
+Request Bank
+F0 7D 6D 64 6C 00 01 cs F7
