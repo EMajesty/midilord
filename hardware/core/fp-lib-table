@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "midilord")(type "KiCad")(uri "/home/emaj/git/midilord/hardware/midilord.pretty")(options "")(descr ""))
+)
