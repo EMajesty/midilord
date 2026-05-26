@@ -1,0 +1,12 @@
+# KiCad auto-save and backups
+*.kicad_sch-bak
+*.kicad_pcb-bak
+*.bak
+*-backups/
+_autosave-*
+
+# KiCad project locks
+*.lck
+
+# Generated outputs (commit selectively)
+gerbers/

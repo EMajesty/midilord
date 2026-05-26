@@ -1,0 +1,11 @@
+# PlatformIO
+firmware/.pio/
+
+# KiCad
+hardware/*.kicad_sch-bak
+hardware/*.kicad_pcb-bak
+hardware/*.bak
+hardware/*-backups/
+hardware/_autosave-*
+hardware/*.lck
+hardware/gerbers/
