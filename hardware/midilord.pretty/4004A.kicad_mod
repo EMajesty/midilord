@@ -66,6 +66,26 @@
 		(layer "F.SilkS")
 		(uuid "7138dab3-56c4-449b-b7bc-2fdfe6b8327c")
 	)
+	(fp_line
+		(start -2.54 0)
+		(end 2.54 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "ece768b8-8d58-4c86-bef3-9e95df51c2a2")
+	)
+	(fp_line
+		(start 0 -2.54)
+		(end 0 2.54)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "3dc03a48-9329-4dac-aca5-1260c64064ff")
+	)
 	(fp_rect
 		(start -83.15 -20.95)
 		(end 83.15 20.95)
@@ -74,7 +94,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "F.SilkS")
+		(layer "Dwgs.User")
 		(uuid "304032e5-0453-439e-ae08-0820c7f7b0cb")
 	)
 	(fp_rect
@@ -85,8 +105,92 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "F.SilkS")
+		(layer "Dwgs.User")
 		(uuid "46a551b9-b0e6-4efb-b282-503b08d64efe")
+	)
+	(fp_line
+		(start -83.82 20.32)
+		(end -83.82 -20.32)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "cb6f8359-573d-417c-afb6-07e4990b9378")
+	)
+	(fp_line
+		(start -82.55 -21.59)
+		(end 82.55 -21.59)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "bfca6492-8c1b-46d9-a7cd-57bb0e428445")
+	)
+	(fp_line
+		(start 82.55 21.59)
+		(end -82.550001 21.59)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "9ebb89f9-114e-4078-821c-360a621b9f05")
+	)
+	(fp_line
+		(start 83.82 -20.32)
+		(end 83.82 20.32)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "0b7c387c-72a8-4508-b72a-ffb835f83727")
+	)
+	(fp_arc
+		(start -83.82 -20.32)
+		(mid -83.448026 -21.218026)
+		(end -82.55 -21.59)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "4f4d6db0-5032-426f-a1c5-8c9f7ca4e0dc")
+	)
+	(fp_arc
+		(start -82.55 21.59)
+		(mid -83.448026 21.218026)
+		(end -83.82 20.32)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "20b8ca64-1bd2-48c6-b278-a941459bbc9e")
+	)
+	(fp_arc
+		(start 82.55 -21.59)
+		(mid 83.448026 -21.218026)
+		(end 83.82 -20.32)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "b4e06576-6753-4829-b243-72d6b46692ca")
+	)
+	(fp_arc
+		(start 83.82 20.32)
+		(mid 83.448026 21.218026)
+		(end 82.55 21.59)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "d894d48e-89e8-4855-a12b-6ebdf97bd95f")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 2.5 0)

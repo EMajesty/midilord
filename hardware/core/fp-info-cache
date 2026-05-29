@@ -1,4 +1,4 @@
-880388160632577
+880510288564113
 4ms_Capacitor
 CP_Elec_5x5.3
 SMT capacitor, aluminium electrolytic, 5x5.3
@@ -63125,13 +63125,6 @@ ceramic
 0
 3
 3
-DIN5_MIDI
-DIN5_MIDI
-
-
-0
-9
-6
 Diode_SMD
 D_0201_0603Metric
 Diode SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://www.vishay.com/docs/20052/crcw0201e3.pdf), generated with kicad-footprint-generator
@@ -111376,6 +111369,13 @@ DIN5_180
 0
 7
 5
+midilord
+Footswitch
+
+
+0
+2
+2
 rc-cfcard
 CF_Card_Socket_PTH
 CFT-125-01-LM-D-RA-01-SL-SD
