@@ -11,7 +11,7 @@
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -54,26 +54,6 @@
 		)
 	)
 	(attr through_hole)
-	(fp_line
-		(start -10.16 0)
-		(end 10.16 0)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "F.SilkS")
-		(uuid "06b8738e-686c-4b07-b6a7-e06d68aa58a7")
-	)
-	(fp_line
-		(start 0 13.97)
-		(end 0 -21.59)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "F.SilkS")
-		(uuid "5ec770b0-314f-401a-b953-d761c1945439")
-	)
 	(fp_circle
 		(center 0 0)
 		(end 8.5 0)
@@ -188,6 +168,26 @@
 		)
 		(layer "B.SilkS")
 		(uuid "bad35095-f50c-46dc-8663-5f675aadb351")
+	)
+	(fp_line
+		(start -10.16 0)
+		(end 10.16 0)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "Dwgs.User")
+		(uuid "06b8738e-686c-4b07-b6a7-e06d68aa58a7")
+	)
+	(fp_line
+		(start 0 13.97)
+		(end 0 -21.59)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "Dwgs.User")
+		(uuid "5ec770b0-314f-401a-b953-d761c1945439")
 	)
 	(fp_circle
 		(center 0 0)

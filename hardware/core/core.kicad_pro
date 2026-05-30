@@ -50,7 +50,7 @@
         "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.5
+          "min_clearance": 0.25
         }
       },
       "diff_pair_dimensions": [
@@ -60,7 +60,56 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "silk_overlap|102080000|102500000|0be44de7-4185-4916-b3a3-1c2388c8b9d8|76dc92a5-768f-4ba6-9a43-2041fe3259bd",
+          ""
+        ],
+        [
+          "silk_overlap|173127200|186700000|0c9ec49a-405d-4f82-af8c-87dde3b712c2|0eae5c3e-f6a1-42cf-b596-9eb09e87ac8a",
+          ""
+        ],
+        [
+          "silk_overlap|173174819|118100000|7cedf82b-c924-446e-86a2-cc4b8e9defb4|e17308d7-8563-4eb9-ab94-f70e12d5cedf",
+          ""
+        ],
+        [
+          "silk_overlap|233134819|186700000|2cb178b9-c784-43d7-b9e6-5f3c5173cba9|639624b4-ab1d-4dec-b10b-edccfda4485e",
+          ""
+        ],
+        [
+          "silk_overlap|233134819|186820000|1a904d4a-e6a7-4b4d-9dd9-c0ded2c9bc73|639624b4-ab1d-4dec-b10b-edccfda4485e",
+          ""
+        ],
+        [
+          "silk_overlap|234134819|118165714|05ea4a71-6ace-462a-b06f-9259d15233ab|b1268bac-a566-4dc9-837b-341ff16d6693",
+          ""
+        ],
+        [
+          "silk_overlap|311874819|118165714|328349ad-37e9-4dc0-9729-f68c13f66e90|70c00198-689d-43a7-972a-e60f24d85f9e",
+          ""
+        ],
+        [
+          "silk_overlap|311970057|186634285|e7f02b01-ca5b-4838-994a-68c21f7a7912|f20beb2f-449b-4e5a-bfae-7dd372e5de51",
+          ""
+        ],
+        [
+          "silk_overlap|88260475|171904819|eaad7669-b810-42e4-a344-45a24d6d4009|fc963937-9f58-4bb3-8279-cd0bc47f169e",
+          ""
+        ],
+        [
+          "silk_overlap|88420000|176500000|2fca4526-ec8d-4659-a943-713907057382|7d0ca4e4-20d3-4f8c-84cc-2f8f4da15d28",
+          ""
+        ],
+        [
+          "silk_overlap|93434819|186634285|7c6bdc99-5463-4c95-ab1a-a2ff0f79c875|eef8d48b-3772-4b6a-a118-6a258cad4db2",
+          ""
+        ],
+        [
+          "silk_overlap|94434819|118100000|8c460578-1c53-45b7-ac9c-523067297a11|c69c1a0d-5c7a-4daf-82d9-2e20508eae9d",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -504,7 +553,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "gerbers/",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "core.step",

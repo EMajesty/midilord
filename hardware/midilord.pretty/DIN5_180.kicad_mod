@@ -11,7 +11,7 @@
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -65,7 +65,7 @@
 		(uuid "1a94eb6c-5cf4-407b-a727-a989b4a7c1a8")
 	)
 	(fp_line
-		(start -8.5 6.08)
+		(start -8.89 6.08)
 		(end -10 6.08)
 		(stroke
 			(width 0.1)
@@ -96,7 +96,7 @@
 	)
 	(fp_line
 		(start 10 6.08)
-		(end 8.5 6.08)
+		(end 8.89 6.08)
 		(stroke
 			(width 0.1)
 			(type solid)

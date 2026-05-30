@@ -98,7 +98,7 @@
 (rule "Clearance: hole to hole (perimeter), different nets"
 	(layer outer)
 	(condition "A.Net != B.Net")
-	(constraint hole_to_hole (min 0.5mm))
+	(constraint hole_to_hole (min 0.3mm))
 )
 
 (rule "Clearance: hole to hole (perimeter), same net"

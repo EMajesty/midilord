@@ -1,4 +1,4 @@
-880510288564113
+884071122360684
 4ms_Capacitor
 CP_Elec_5x5.3
 SMT capacitor, aluminium electrolytic, 5x5.3
@@ -111362,6 +111362,20 @@ midilord
 0
 22
 18
+midilord
+APA106
+LED, diameter 5.0mm, 4 pins, WP154A4, https://www.kingbright.com/attachments/file/psearch/000/00/00/L-154A4SUREQBFZGEW(Ver.11A).pdf
+LED diameter 5.0mm 2 pins diameter 5.0mm 3 pins diameter 5.0mm 4 pins RGB RGBLED
+0
+4
+4
+midilord
+CK635-006
+
+
+0
+6
+6
 midilord
 DIN5_180
 
