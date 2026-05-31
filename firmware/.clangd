@@ -1,0 +1,9 @@
+CompileFlags:
+  Remove:
+  - -mlongcalls
+  - -fno-tree-switch-conversion
+  - -fstrict-volatile-bitfields
+  - -mdisable-hardware-atomics
+  Add:
+  - -include
+  - /home/emaj/.platformio/packages/framework-espidf/components/xtensa/include/xtensa/config/core-isa.h
