@@ -10,7 +10,7 @@ MIDI controller pedal built on ESP32-S3.
 - 4×40 character LCD (ST7066U, 4-bit parallel)
 - 1 MIDI IN, multiple MIDI OUTs
 - USB MIDI (native ESP32-S3 USB OTG port)
-- 9V pedal power, regulated to 3.3V logic
+- 9V pedal power, regulated to 5V and 3.3V logic
 
 ### LCD pinout (XNY4004A, 18-pin)
 
