@@ -44,3 +44,4 @@ MIDI controller pedal built on ESP32-S3.
 
 
 [LCD Datasheet](https://www.crystalfontz.com/products/document/931/CFAH4004A-YYH-JTDatasheetRelease2021-11-03.pdf)
+[APA106](https://cdn.sparkfun.com/datasheets/Components/LED/COM-12877.pdf)
