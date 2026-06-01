@@ -191,7 +191,7 @@
 	)
 	(fp_circle
 		(center 0 0)
-		(end 6 0)
+		(end 6.1 0)
 		(stroke
 			(width 0.1)
 			(type solid)
@@ -251,4 +251,15 @@
 		(uuid "9939eee7-e756-461b-a5a6-9b5849259259")
 	)
 	(embedded_fonts no)
+	(model "/home/emaj/git/midilord/hardware/Footswitch - Footswitch.step"
+		(offset
+			(xyz 0 0 -2.5)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -0 -0 -180)
+		)
+	)
 )

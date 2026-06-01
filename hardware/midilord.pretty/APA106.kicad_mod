@@ -201,48 +201,48 @@
 			)
 		)
 	)
-	(pad "1" thru_hole circle
-		(at 4.318 0)
-		(size 1.8 1.8)
-		(drill 0.9)
+	(pad "1" thru_hole oval
+		(at 3.81 0)
+		(size 1 2)
+		(drill 0.6)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "97d62d92-e927-4b31-9739-9e4c8af4e789")
 	)
-	(pad "2" thru_hole circle
-		(at 0 0)
-		(size 1.8 1.8)
-		(drill 0.9)
+	(pad "2" thru_hole oval
+		(at 1.27 0)
+		(size 1 2)
+		(drill 0.6)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "ef6dfaec-5fcf-45bb-aa76-0f345b3e2e34")
 	)
 	(pad "3" thru_hole rect
-		(at 2.159 0)
-		(size 1.8 1.8)
-		(drill 0.9)
+		(at 2.54 0)
+		(size 1 2)
+		(drill 0.6)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "439c5fed-aff0-4dee-b134-6bf038f4cfa4")
 	)
-	(pad "4" thru_hole circle
-		(at 6.477 0)
-		(size 1.8 1.8)
-		(drill 0.9)
+	(pad "4" thru_hole oval
+		(at 5.08 0)
+		(size 1 2)
+		(drill 0.6)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "aca614be-e066-421f-bd76-e47219a16b86")
 	)
 	(embedded_fonts no)
-	(model "${KICAD9_3DMODEL_DIR}/LED_THT.3dshapes/LED_D5.0mm-4_RGB_Wide_Pins.step"
+	(model "${KICAD9_3DMODEL_DIR}/LED_THT.3dshapes/LED_D5.0mm-4_RGB.step"
 		(offset
-			(xyz 0 0 0)
+			(xyz 1.27 0 -3)
 		)
 		(scale
 			(xyz 1 1 1)
 		)
 		(rotate
-			(xyz 0 0 0)
+			(xyz -0 -0 -0)
 		)
 	)
 )

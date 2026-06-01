@@ -385,4 +385,15 @@
 		(uuid "ebba1fd1-e7af-4c28-aa93-32e20ba1f7c5")
 	)
 	(embedded_fonts no)
+	(model "/home/emaj/git/midilord/hardware/LCD - LCD.step"
+		(offset
+			(xyz 0 0 -3.6)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -0 -0 -0)
+		)
+	)
 )

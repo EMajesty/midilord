@@ -187,4 +187,15 @@
 		(uuid "3581d1b1-8392-4f4e-937c-ba382ff77c08")
 	)
 	(embedded_fonts no)
+	(model "/home/emaj/git/midilord/hardware/DIN5-180 - DIN5-180.step"
+		(offset
+			(xyz 0 -5.08 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -0 -0 -180)
+		)
+	)
 )
