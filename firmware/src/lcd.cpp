@@ -13,6 +13,7 @@ void init() {
     lcdTop.begin(40, 2);
     lcdBot.begin(40, 2);
 }
+
 void test() {
     lcdTop.setCursor(1, 0);
     lcdTop.write(0xA2);
@@ -47,4 +48,7 @@ void test() {
     lcdBot.print("Preset");
     lcdBot.write(0xA3);
 }
+
+void vegas() {}
+
 } // namespace lcd

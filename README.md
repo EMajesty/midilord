@@ -31,7 +31,7 @@ MIDI controller pedal built on ESP32-S3.
 | 13 | VSS (GND) |
 | 14 | VDD (+5V) |
 | 15 | E2 |
-| 16 | Vee |
+| 16 | NC |
 | 17 | Backlight + |
 | 18 | Backlight - |
 
