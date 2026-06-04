@@ -54,17 +54,6 @@
 		)
 	)
 	(attr through_hole)
-	(fp_circle
-		(center 0 0)
-		(end 8.5 0)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.SilkS")
-		(uuid "27e943a7-7ceb-4230-b859-d4dad107b214")
-	)
 	(fp_line
 		(start -7 0)
 		(end -7 -19.000001)
@@ -188,6 +177,17 @@
 		)
 		(layer "Dwgs.User")
 		(uuid "5ec770b0-314f-401a-b953-d761c1945439")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 8.5 0)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "Dwgs.User")
+		(uuid "27e943a7-7ceb-4230-b859-d4dad107b214")
 	)
 	(fp_circle
 		(center 0 0)
