@@ -236,7 +236,7 @@
 	(embedded_fonts no)
 	(model "${KICAD9_3DMODEL_DIR}/LED_THT.3dshapes/LED_D5.0mm-4_RGB.step"
 		(offset
-			(xyz 1.27 0 -3)
+			(xyz -1.905 0 -3)
 		)
 		(scale
 			(xyz 1 1 1)
