@@ -6,7 +6,7 @@
 	(descr "LED, diameter 5.0mm, 4 pins, WP154A4, https://www.kingbright.com/attachments/file/psearch/000/00/00/L-154A4SUREQBFZGEW(Ver.11A).pdf")
 	(tags "LED diameter 5.0mm 2 pins diameter 5.0mm 3 pins diameter 5.0mm 4 pins RGB RGBLED")
 	(property "Reference" "REF**"
-		(at 3.2385 -3.96 0)
+		(at 0 -3.96 0)
 		(layer "F.SilkS")
 		(uuid "e7a70c62-2d85-44bf-becb-daaca40ebad4")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "APA106"
-		(at 3.2385 3.96 0)
+		(at 0 3.96 0)
 		(layer "F.Fab")
 		(uuid "3a09eb4c-16f9-4762-811e-f69c08523fa1")
 		(effects
@@ -55,8 +55,8 @@
 	)
 	(attr through_hole)
 	(fp_line
-		(start 0.6785 -1.545)
-		(end 0.6785 -1.08)
+		(start -2.56 -1.545)
+		(end -2.56 -1.08)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -65,8 +65,8 @@
 		(uuid "dff0f822-71a6-4c64-a400-0d37eab94364")
 	)
 	(fp_line
-		(start 0.6785 1.08)
-		(end 0.6785 1.545)
+		(start -2.56 1.08)
+		(end -2.56 1.545)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -75,9 +75,9 @@
 		(uuid "de46767e-fea5-46aa-9739-1c0c5d5663e2")
 	)
 	(fp_arc
-		(start 0.6785 -1.54483)
-		(mid 3.496956 -2.978809)
-		(end 6.026315 -1.080827)
+		(start -2.56 -1.54483)
+		(mid 0.258456 -2.978809)
+		(end 2.787815 -1.080827)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -86,9 +86,9 @@
 		(uuid "4c689063-3966-45ec-bb24-a4db1aa34183")
 	)
 	(fp_arc
-		(start 0.983816 -1.08)
-		(mid 3.238262 -2.5)
-		(end 5.492979 -1.080429)
+		(start -2.254684 -1.08)
+		(mid -0.000238 -2.5)
+		(end 2.254479 -1.080429)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -97,9 +97,9 @@
 		(uuid "98258c2d-9d8b-4ba9-9e46-4d9d2f667a4e")
 	)
 	(fp_arc
-		(start 5.492979 1.080429)
-		(mid 3.238262 2.5)
-		(end 0.983816 1.08)
+		(start 2.254479 1.080429)
+		(mid -0.000238 2.5)
+		(end -2.254684 1.08)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -108,9 +108,9 @@
 		(uuid "3cfd2808-85b3-4adc-8c6b-2992a79555a6")
 	)
 	(fp_arc
-		(start 6.026315 1.080827)
-		(mid 3.496956 2.978808)
-		(end 0.6785 1.54483)
+		(start 2.787815 1.080827)
+		(mid 0.258456 2.978808)
+		(end -2.56 1.54483)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -119,8 +119,8 @@
 		(uuid "6bd25c07-a271-479a-b009-b1f9dcdba38d")
 	)
 	(fp_line
-		(start -1.08 -3.25)
-		(end -1.08 3.25)
+		(start -4.3185 -3.25)
+		(end -4.3185 3.25)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -129,8 +129,8 @@
 		(uuid "97017375-dd75-4ccc-9719-60258b70c271")
 	)
 	(fp_line
-		(start -1.08 3.25)
-		(end 7.56 3.25)
+		(start -4.3185 3.25)
+		(end 4.3215 3.25)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -139,8 +139,8 @@
 		(uuid "ef3f6eee-3298-4ca5-b1b6-67e922fcdb7c")
 	)
 	(fp_line
-		(start 7.56 -3.25)
-		(end -1.08 -3.25)
+		(start 4.3215 -3.25)
+		(end -4.3185 -3.25)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -149,8 +149,8 @@
 		(uuid "64b1d8cd-8af2-4edc-88ad-98b5c075c99f")
 	)
 	(fp_line
-		(start 7.56 3.25)
-		(end 7.56 -3.25)
+		(start 4.3215 3.25)
+		(end 4.3215 -3.25)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -159,8 +159,8 @@
 		(uuid "98b4c118-44a7-44b3-a514-efcd2fdfc0f5")
 	)
 	(fp_line
-		(start 0.7385 -1.469694)
-		(end 0.7385 1.469694)
+		(start -2.5 -1.469694)
+		(end -2.5 1.469694)
 		(stroke
 			(width 0.1)
 			(type solid)
@@ -169,9 +169,9 @@
 		(uuid "082147d3-5636-4f27-b68b-adc697e64d87")
 	)
 	(fp_arc
-		(start 0.7385 -1.469694)
-		(mid 6.1385 0.000016)
-		(end 0.738484 1.469666)
+		(start -2.5 -1.469694)
+		(mid 2.9 0.000016)
+		(end -2.500016 1.469666)
 		(stroke
 			(width 0.1)
 			(type solid)
@@ -180,8 +180,8 @@
 		(uuid "806ade8c-0630-4cf1-a8a3-c3ed8a082077")
 	)
 	(fp_circle
-		(center 3.2385 0)
-		(end 5.7385 0)
+		(center 0 0)
+		(end 2.5 0)
 		(stroke
 			(width 0.1)
 			(type solid)
@@ -191,7 +191,7 @@
 		(uuid "70594110-4307-496c-ab27-820ce33306bd")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 3.2385 -3.96 0)
+		(at 0 -3.96 0)
 		(layer "F.Fab")
 		(uuid "ef18dbc0-c6e6-4a37-a607-cc08abb66a39")
 		(effects
@@ -202,7 +202,7 @@
 		)
 	)
 	(pad "1" thru_hole oval
-		(at 3.81 0)
+		(at 0.635 0)
 		(size 1 2)
 		(drill 0.6)
 		(layers "*.Cu" "*.Mask")
@@ -210,7 +210,7 @@
 		(uuid "97d62d92-e927-4b31-9739-9e4c8af4e789")
 	)
 	(pad "2" thru_hole oval
-		(at 1.27 0)
+		(at -1.905 0)
 		(size 1 2)
 		(drill 0.6)
 		(layers "*.Cu" "*.Mask")
@@ -218,7 +218,7 @@
 		(uuid "ef6dfaec-5fcf-45bb-aa76-0f345b3e2e34")
 	)
 	(pad "3" thru_hole rect
-		(at 2.54 0)
+		(at -0.635 0)
 		(size 1 2)
 		(drill 0.6)
 		(layers "*.Cu" "*.Mask")
@@ -226,7 +226,7 @@
 		(uuid "439c5fed-aff0-4dee-b134-6bf038f4cfa4")
 	)
 	(pad "4" thru_hole oval
-		(at 5.08 0)
+		(at 1.905 0)
 		(size 1 2)
 		(drill 0.6)
 		(layers "*.Cu" "*.Mask")

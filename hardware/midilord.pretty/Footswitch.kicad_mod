@@ -251,7 +251,7 @@
 		(uuid "9939eee7-e756-461b-a5a6-9b5849259259")
 	)
 	(embedded_fonts no)
-	(model "/home/emaj/git/midilord/hardware/Footswitch - Footswitch.step"
+	(model "/home/emaj/git/midilord/hardware/3d/Footswitch.step"
 		(offset
 			(xyz 0 0 -2.5)
 		)

@@ -9,26 +9,25 @@ CRGB indicators[LED_COUNT];
 } // namespace
 
 namespace leds {
-void init() {
-    FastLED.addLeds<WS2812B, LED_PIN, RGB>(indicators, LED_COUNT);
-    for (int i = 0; i < LED_COUNT; i++) {
-        indicators[i] = CRGB::Green;
-    }
-    indicators[0].nscale8(8);
-    indicators[1].nscale8(64);
-    indicators[2].nscale8(8);
-    indicators[3].nscale8(64);
-    indicators[4].nscale8(8);
-    indicators[5].nscale8(64);
-    indicators[6].nscale8(8);
-    indicators[7].nscale8(64);
-    FastLED.show();
-}
+void init() { FastLED.addLeds<WS2812B, LED_PIN, RGB>(indicators, LED_COUNT); }
 
 void vegas() {
     for (int i = 0; i < LED_COUNT; i++) {
         indicators[i] = CRGB(255, 0, 0);
     }
+    FastLED.show();
+}
+
+void set(uint8_t index, CRGB color) {
+    indicators[index] = color;
+    FastLED.show();
+}
+
+void setClear(uint8_t index, CRGB color) {
+    for (int i = 0; i < LED_COUNT; i++) {
+        indicators[i] = CRGB(0, 0, 0);
+    }
+    indicators[index] = color;
     FastLED.show();
 }
 } // namespace leds

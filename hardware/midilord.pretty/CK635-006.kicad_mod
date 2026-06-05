@@ -171,7 +171,7 @@
 		(uuid "411ca947-ea32-4805-9b96-1d694d111f48")
 	)
 	(embedded_fonts no)
-	(model "/home/emaj/git/midilord/hardware/Jack - Jack.step"
+	(model "/home/emaj/git/midilord/hardware/3d/CK635-006.step"
 		(offset
 			(xyz 0 0 0)
 		)

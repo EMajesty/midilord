@@ -1,14 +1,15 @@
 #include "lcd.h"
 #include "leds.h"
+#include "switches.h"
 #include <Arduino.h>
 
 void setup() {
-    // initLcd();
     Serial.begin(115200);
 
     leds::init();
     lcd::init();
+    switches::init();
     lcd::test();
 }
 
-void loop() { delay(1000); }
+void loop() { switches::read(); }
