@@ -1,14 +1,21 @@
+#include "event.h"
 #include "lcd.h"
 #include "leds.h"
+#include "midiport.h"
+#include "storage.h"
 #include "switches.h"
 #include <Arduino.h>
 
 void setup() {
     Serial.begin(115200);
 
+    storage::init();
+    switches::init();
+    midiport::init();
+    event::init();
     leds::init();
     lcd::init();
-    switches::init();
+
     lcd::test();
 }
 
