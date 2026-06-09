@@ -4,5 +4,5 @@
 
 namespace midiport {
 void init();
-void send(types::Event);
+void send(types::Event event);
 } // namespace midiport

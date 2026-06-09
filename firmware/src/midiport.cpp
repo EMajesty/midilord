@@ -1,4 +1,5 @@
 #include "midiport.h"
+#include "types.h"
 #include <Arduino.h>
 #include <MIDI.h>
 #include <cstdint>
@@ -22,5 +23,20 @@ void init() {
     MIDI1.begin(MIDI_CHANNEL_OMNI);
     MIDI2.begin(MIDI_CHANNEL_OMNI);
 }
-void send(types::Event) {}
+void send(types::Event event) {
+    switch (event.type) {
+    case types::NONE:
+        break;
+    case types::INTERNAL:
+        break;
+    case types::CC:
+        MIDI1.sendControlChange(event.message, event.value, event.channel);
+        MIDI2.sendControlChange(event.message, event.value, event.channel);
+        break;
+    case types::PC:
+        MIDI1.sendProgramChange(event.message, event.channel);
+        MIDI2.sendProgramChange(event.message, event.channel);
+        break;
+    }
+}
 } // namespace midiport
