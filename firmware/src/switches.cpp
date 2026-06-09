@@ -20,7 +20,7 @@ void keypadEvent(KeypadEvent key) {
         break;
     case PRESSED:
         Serial.println(String(key) + " pressed");
-        event::trigger(key - 0);
+        event::trigger(atoi(&key));
         break;
     case RELEASED:
         break;
