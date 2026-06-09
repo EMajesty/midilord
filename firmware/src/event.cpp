@@ -12,23 +12,21 @@ void init() {}
 void trigger(uint8_t key) {
     types::Preset currPreset = storage::currBank.presets[key];
     leds::clear();
-    leds::set(key, currPreset.color);
+    leds::set(key, CRGB(currPreset.r, currPreset.g, currPreset.b));
 
-    for (int i = 0;
-         i < sizeof(currPreset.events) / sizeof(currPreset.events[0]); i++) {
-        switch (currPreset.events[i].type) {
+    for (types::Event e : currPreset.events) {
+        switch (e.type) {
         case types::NONE:
             break;
         case types::INTERNAL:
             break;
         case types::CC:
-            midiport::send(currPreset.events[i]);
+            midiport::sendCC(e.number, e.value, e.channel);
             break;
         case types::PC:
-            midiport::send(currPreset.events[i]);
+            midiport::sendPC(e.number, e.channel);
             break;
         }
     }
 }
-void changeBank(uint8_t bank) {}
 } // namespace event

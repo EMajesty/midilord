@@ -10,21 +10,22 @@ const char keys[rows][cols] = {{'0', '1', '2', '3'}, {'4', '5', '6', '7'}};
 uint8_t rowPins[rows] = {1, 2};
 uint8_t colPins[cols] = {42, 41, 40, 39};
 
-unsigned long timers[8] = {};
-
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 
 void keypadEvent(KeypadEvent key) {
     switch (keypad.getState()) {
+    case IDLE:
+        break;
+    case HOLD:
+        break;
     case PRESSED:
-        event::trigger(atoi(&key));
+        Serial.println(String(key) + " pressed");
+        event::trigger(key - 0);
         break;
     case RELEASED:
-        // timers[key] = 0;
         break;
     }
 };
-
 } // namespace
 
 namespace switches {

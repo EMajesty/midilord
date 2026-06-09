@@ -7,3 +7,9 @@ CompileFlags:
   Add:
   - -include
   - /home/emaj/.platformio/packages/framework-espidf/components/xtensa/include/xtensa/config/core-isa.h
+Diagnostics:
+  Suppress:
+  - ovl_no_viable_subscript
+  - ovl_ambiguous_oper_binary
+  - ovl_no_viable_member_function_in_call
+  - ovl_no_viable_function_in_call
