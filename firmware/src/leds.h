@@ -5,7 +5,5 @@
 namespace leds {
 void init();
 void set(uint8_t index, CRGB color);
-void setClear(uint8_t index, CRGB color);
-void update();
-void vegas();
+void clear();
 } // namespace leds

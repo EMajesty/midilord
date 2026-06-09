@@ -8,10 +8,12 @@
 namespace {} // namespace
 
 namespace event {
-void init() { types::Bank currBank = storage::getBank(); }
+void init() {}
 void trigger(uint8_t key) {
-    types::Preset currPreset = currBank.presets[key];
-    leds::setClear(key, currPreset.color);
+    types::Preset currPreset = storage::currBank.presets[key];
+    leds::clear();
+    leds::set(key, currPreset.color);
+
     for (int i = 0;
          i < sizeof(currPreset.events) / sizeof(currPreset.events[0]); i++) {
         switch (currPreset.events[i].type) {
