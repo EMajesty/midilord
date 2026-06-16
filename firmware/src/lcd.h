@@ -5,8 +5,6 @@
 
 namespace lcd {
 void init();
-void test();
-void vegas();
 void clear();
 void drawBank(types::Bank bank);
 void drawActivePreset(uint8_t index);

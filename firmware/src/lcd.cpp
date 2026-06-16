@@ -18,43 +18,8 @@ void init() {
     lcdBot.begin(40, 2);
 }
 
-void test() {
-    lcdTop.setCursor(1, 0);
-    lcdTop.write(0xA2);
-    lcdTop.print("Preset");
-    lcdTop.write(0xA3);
-    lcdTop.setCursor(11, 0);
-    lcdTop.write(0xA2);
-    lcdTop.print("Preset");
-    lcdTop.write(0xA3);
-    lcdTop.setCursor(21, 0);
-    lcdTop.write(0xA2);
-    lcdTop.print("Preset");
-    lcdTop.write(0xA3);
-    lcdTop.setCursor(31, 0);
-    lcdTop.write(0xA2);
-    lcdTop.print("Preset");
-    lcdTop.write(0xA3);
-    lcdBot.setCursor(1, 1);
-    lcdBot.write(0xA2);
-    lcdBot.print("Preset");
-    lcdBot.write(0xA3);
-    lcdBot.setCursor(11, 1);
-    lcdBot.write(0xA2);
-    lcdBot.print("Preset");
-    lcdBot.write(0xA3);
-    lcdBot.setCursor(21, 1);
-    lcdBot.write(0xA2);
-    lcdBot.print("Preset");
-    lcdBot.write(0xA3);
-    lcdBot.setCursor(31, 1);
-    lcdBot.write(0xA2);
-    lcdBot.print("Preset");
-    lcdBot.write(0xA3);
-}
-
-void vegas() {}
 void clear() {}
+
 // 0123456789012345678901234567890123456789
 // x12345678xx12345678xx12345678xx12345678x
 //
@@ -65,7 +30,7 @@ void drawBank(types::Bank bank) {
     lcdTop.write(bank.name);
 
     for (uint8_t i = 0; i < 8; i++) {
-        if (i < 5) {
+        if (i < 4) {
             lcdTop.setCursor(i * 10 + 1, 0);
             lcdTop.write(bank.presets[i].name);
         } else {
@@ -86,15 +51,15 @@ void drawActivePreset(uint8_t index) {
             right = ' ';
         }
 
-        if (i < 5) {
-            lcdTop.setCursor((i - 1) * 10, 0);
+        if (i < 4) {
+            lcdTop.setCursor((i) * 10, 0);
             lcdTop.write(left);
-            lcdTop.setCursor((i - 1) * 10 + 9, 0);
+            lcdTop.setCursor((i) * 10 + 9, 0);
             lcdTop.write(right);
         } else {
-            lcdBot.setCursor((i - 5) * 10, 1);
+            lcdBot.setCursor((i - 4) * 10, 1);
             lcdBot.write(left);
-            lcdBot.setCursor((i - 5) * 10 + 9, 1);
+            lcdBot.setCursor((i - 4) * 10 + 9, 1);
             lcdBot.write(right);
         }
     }
