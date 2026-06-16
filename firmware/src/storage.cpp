@@ -41,12 +41,12 @@ void getBank(uint8_t bankIndex) {
     // currBankIndex = bankIndex;
     // // deserialize bank from filesystem to currBank
 }
-void getNextBank() {
+void nextBank() {
     if (currBankIndex < bankCount - 1) {
         getBank(currBankIndex + 1);
     }
 }
-void getPrevBank() {
+void prevBank() {
     if (currBankIndex > 0) {
         getBank(currBankIndex - 1);
     }

@@ -17,8 +17,8 @@ void setup() {
     event::init();
     leds::init();
     lcd::init();
-
-    lcd::test();
+    lcd::drawBank(storage::currBank);
+    leds::clear();
 }
 
 void loop() { switches::read(); }

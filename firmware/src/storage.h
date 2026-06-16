@@ -7,7 +7,7 @@ namespace storage {
 extern types::Bank currBank; // global data of current bank in memory
 void init();
 void getBank(uint8_t bank);
-void getNextBank();
-void getPrevBank();
+void nextBank();
+void prevBank();
 void writeBank();
 } // namespace storage

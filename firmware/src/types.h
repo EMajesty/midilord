@@ -14,12 +14,12 @@ struct Event {
     uint8_t channel;
 };
 struct Preset {
-    char name[7]; // 6 characters + null terminator
+    char name[9] = "Preset X"; // 8 characters + null terminator
     Event events[16];
     uint8_t r = 128, g = 0, b = 0;
 };
 struct Bank {
-    char name[9]; // 8 characters + null terminator
+    char name[9] = "Bank XXX"; // 8 characters + null terminator
     Preset presets[8];
 };
 
