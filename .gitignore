@@ -1,10 +1,17 @@
-# PlatformIO
+# Retired PlatformIO/clangd local artifacts
 firmware/.pio/
 firmware/compile_commands.json
-
-# clangd
 firmware/.cache/
 firmware/.clangd
+
+# Zephyr
+build/
+firmware/build/
+.west/
+
+# Nix
+.direnv/
+result
 
 # KiCad
 hardware/*.kicad_sch-bak
