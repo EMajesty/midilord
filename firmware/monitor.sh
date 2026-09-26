@@ -1,29 +1,22 @@
 #!/usr/bin/env bash
 set -u
 
-DEVICE_GLOB="/dev/serial/by-id/*Espressif*"
+DEVICE="/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_90:70:69:03:F6:18-if00"
 
 while true; do
-    DEVICE=""
-
-    while [ -z "$DEVICE" ]; do
-        for candidate in $DEVICE_GLOB; do
-            if [ -e "$candidate" ]; then
-                DEVICE="$candidate"
-                break
-            fi
-        done
-
-        [ -z "$DEVICE" ] && sleep 0.1
+    # Wait for the ESP to enumerate/re-enumerate.
+    while [ ! -e "$DEVICE" ]; do
+        sleep 0.1
     done
 
     picocom -b 115200 "$DEVICE"
     status=$?
 
-    # Normal picocom exit: Ctrl+A, Ctrl+X
+    # Ctrl+A, Ctrl+X -> normal exit.
     if [ "$status" -eq 0 ]; then
         exit 0
     fi
 
+    # Device probably disappeared during reset/flash.
     sleep 0.1
 done
