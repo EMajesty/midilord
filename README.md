@@ -4,9 +4,6 @@
 
 MIDI controller pedal built on ESP32-S3.
 
-The firmware is a minimal Zephyr application targeting the upstream
-`esp32s3_devkitc/esp32s3/appcpu` board.
-
 ## Hardware
 
 - 8 footswitches
