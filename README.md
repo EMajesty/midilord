@@ -7,37 +7,6 @@ MIDI controller pedal built on ESP32-S3.
 The firmware is a minimal Zephyr application targeting the upstream
 `esp32s3_devkitc/esp32s3/appcpu` board.
 
-## Firmware development
-
-Enter the reproducible development environment from the repository root:
-
-```sh
-nix develop
-```
-
-Alternatively, with direnv and its Nix integration installed, authorize the
-repository once and the same environment will load automatically:
-
-```sh
-direnv allow
-```
-
-Create the west workspace once as a sibling of this repository, then download
-Zephyr 4.4.0 and its modules:
-
-```sh
-west init -m https://github.com/zephyrproject-rtos/zephyr --mr v4.4.0 ../midilord-zephyr-workspace
-cd ../midilord-zephyr-workspace
-west update
-```
-
-After adding your first source file under `firmware/src/`, build it from the
-west workspace while still inside the Nix development shell:
-
-```sh
-west build -b esp32s3_devkitc/esp32s3/appcpu ../midilord/firmware
-```
-
 ## Hardware
 
 - 8 footswitches
