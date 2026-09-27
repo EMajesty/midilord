@@ -5,8 +5,7 @@
 MIDI controller pedal built on ESP32-S3.
 
 The firmware is a minimal Zephyr application targeting the upstream
-`esp32s3_devkitc/esp32s3/appcpu` board. Application code and hardware-specific
-devicetree configuration have intentionally not been added yet.
+`esp32s3_devkitc/esp32s3/appcpu` board.
 
 ## Firmware development
 
