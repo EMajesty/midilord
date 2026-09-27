@@ -1,0 +1,12 @@
+description: Midilord footswitch matrix
+
+compatible: "midilord,switch-matrix"
+
+properties:
+  row-gpios:
+    type: phandle-array
+    required: true
+
+  col-gpios:
+    type: phandle-array
+    required: true

@@ -7977,6 +7977,12 @@
 		(uuid "9ab556c3-a263-448a-961c-052bb235a53f")
 	)
 	(junction
+		(at 110.49 124.46)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9b3e21d5-f69b-452f-8ca5-3013b8b97247")
+	)
+	(junction
 		(at 60.96 180.34)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -20761,6 +20767,76 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 110.49 120.65 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a4f72c2c-8600-44f7-94ec-c38ed87e38ee")
+		(property "Reference" "R17"
+			(at 113.03 119.3799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10K"
+			(at 113.03 121.9199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal"
+			(at 108.712 120.65 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 110.49 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 110.49 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "a7297e9b-6fd8-4847-bc82-9e4189c1e786")
+		)
+		(pin "1"
+			(uuid "e6fba4fd-4f62-4e48-86e1-4cbd8bda78a0")
+		)
+		(instances
+			(project "core"
+				(path "/1485bec2-ae99-424e-8aed-104a9db6edd5"
+					(reference "R17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "LED:WS2812B")
 		(at 132.08 204.47 0)
 		(unit 1)
@@ -22959,6 +23035,72 @@
 			(project ""
 				(path "/1485bec2-ae99-424e-8aed-104a9db6edd5"
 					(reference "J7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 110.49 116.84 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c60720ae-7dd0-48c4-9d96-54bcdc420a9c")
+		(property "Reference" "#PWR016"
+			(at 110.49 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 110.49 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 110.49 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 110.49 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 110.49 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "25572eb4-0ffe-44a1-a140-efcd2cdbeb09")
+		)
+		(instances
+			(project "core"
+				(path "/1485bec2-ae99-424e-8aed-104a9db6edd5"
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)

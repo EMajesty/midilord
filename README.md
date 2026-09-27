@@ -16,6 +16,13 @@ Enter the reproducible development environment from the repository root:
 nix develop
 ```
 
+Alternatively, with direnv and its Nix integration installed, authorize the
+repository once and the same environment will load automatically:
+
+```sh
+direnv allow
+```
+
 Create the west workspace once as a sibling of this repository, then download
 Zephyr 4.4.0 and its modules:
 
